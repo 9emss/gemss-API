@@ -54,10 +54,12 @@ class Blog extends ResourceController
         return $this->respond($data);
     }
 
+    // Method untuk merubah data
     public function update($id = null)
     {
         helper(['form']);
 
+        // Rulesnya masih belum bekerja
         $oldPosts = $this->model->getDataPosts($this->request->getVar('title'));
 
 
@@ -77,8 +79,11 @@ class Blog extends ResourceController
         if (!$this->validate($rules)) {
             # code...
 
+            // Jika rules dari validasi tidak terpenuhi maka akan mendapat respond 400/4001
             return $this->fail($this->validator->getErrors());
         } else {
+
+            // Jika rules terpenuhi maka data dengan id yang sesuai dengan parameter akan berubah
             $input = $this->request->getRawInput();
             $data = [
                 'post_id'       => $id,
@@ -91,15 +96,18 @@ class Blog extends ResourceController
         }
     }
 
+    // Method untuk menghapus data
     public function delete($id = null)
     {
-        //Code Here..
+
         $data = $this->model->find($id);
         if ($data) {
-            # code...
+            // Jika id data ditemukan maka data akan terhapus
             $this->model->delete($id);
             return $this->respondDeleted($data);
         } else {
+
+            // Jika id data tidak ditemukan maka akan mendapat respond 400/4001 dan pesan item not found
             return $this->failNotFound('Item not found');
         }
     }
