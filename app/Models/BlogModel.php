@@ -13,4 +13,15 @@ class BlogModel extends Model
         'post_title',
         'post_description'
     ];
+
+    public function getDataPosts($id = false)
+    {
+        //Code Here..
+        if ($id === false) {
+            # code...
+            return $this->findAll();
+        }
+
+        return $this->getWhere(['post_id' => $id])->getRowArray();
+    }
 }
